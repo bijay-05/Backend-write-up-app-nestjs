@@ -5,6 +5,7 @@ export const USER_MESSAGE_CONSTANT = {
         USER_UPDATE_SUCCESS: "User updated successfully"
     },
     ERROR_MESSAGE: {
-        USER_NOT_FOUND: "User not found"
+        USER_NOT_FOUND: "User not found",
+        EMAIL_ALREADY_TAKEN: "Email already taken"
     }
 }
