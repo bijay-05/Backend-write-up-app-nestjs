@@ -1,15 +1,12 @@
 import { Controller, Get, Post, Put, Param, HttpCode, HttpStatus, Body } from "@nestjs/common";
 import { IUser, UserService } from "./user.service";
-import { PrismaService } from "src/common/prisma/prisma.service";
 import { AppResponse } from "src/common/api-response";
 import { CreateUpdateUserDto } from "./dto";
 import { USER_MESSAGE_CONSTANT } from "src/common/constants/user.constant";
 
+@Controller("user")
 export class UserController {
-    constructor(
-        private prismaService: PrismaService,
-        private userService: UserService
-    ) {};
+    constructor(private userService: UserService) {};
 
     @Get(":id")
     @HttpCode(HttpStatus.OK)
