@@ -53,8 +53,8 @@ export class UserService {
     const logger = new Logger(UserService.name + "-createUser");
     try {
         //check unique email address;
-        // const userEmailTaken = await this.getUser(createDto.useremail);
-        // if (userEmailTaken?.useremail) throw new BadRequestException("email taken already")
+        const userEmailTaken = await this.checkEmail(createDto.useremail)
+        if (userEmailTaken) throw new BadRequestException(USER_MESSAGE_CONSTANT.ERROR_MESSAGE.EMAIL_ALREADY_TAKEN)
         
             //save user
         // const hashPassword = bcryp
@@ -87,6 +87,23 @@ export class UserService {
       })
 
       return user;
+    } catch (err) {
+      logger.error(err);
+      throw err;
+    }
+  }
+
+  private async checkEmail(email: string): Promise<boolean> {
+    const logger = new Logger(UserService.name + "-checkEmail");
+    try {
+      const emailList = await this.prismaService.user.findMany({
+        select: { useremail: true }
+      })
+
+      const emailExists = emailList.findIndex(emailObject => emailObject.useremail == email);
+
+      if (emailExists !== -1) return true;
+      return false;
     } catch (err) {
       logger.error(err);
       throw err;

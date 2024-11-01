@@ -5,7 +5,7 @@ import { AppResponse } from 'src/common/api-response';
 import { IAuthToken, IAuthUser } from './interface';
 import { AUTH_MESSAGE_CONSTANT } from 'src/common/constants/auth.constant';
 import { getUser } from 'src/common/decorators';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { AuthGuard } from 'src/common/guards';
 
 @Controller('auth')
 export class AuthController {
