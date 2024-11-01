@@ -1,7 +1,8 @@
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { JsonValue } from '@prisma/client/runtime/library';
 import { CreateUpdateUserDto } from './dto';
+import { USER_MESSAGE_CONSTANT } from 'src/common/constants/user.constant';
 
 export interface IUser {
     id: string;
@@ -29,6 +30,23 @@ export class UserService {
       logger.error(err);
       throw err;
     }
+  }
+
+  async getUserByEmail(useremail: string): Promise<IUser | undefined> {
+    const logger = new Logger(UserService.name + "-getUserByEmail");
+    try {
+      const user = await this.prismaService.user.findUnique({
+        where: { useremail: useremail }
+      });
+
+      if (!user) throw new NotFoundException(USER_MESSAGE_CONSTANT.ERROR_MESSAGE.USER_NOT_FOUND)
+
+      return user;
+    } catch (err) {
+      logger.error(err);
+      throw err;
+    }
+    
   }
 
   async createUser(createDto: CreateUpdateUserDto): Promise<IUser | undefined> {

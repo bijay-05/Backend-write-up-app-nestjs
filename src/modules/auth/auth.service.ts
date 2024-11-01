@@ -18,7 +18,7 @@ export class AuthService {
   async logIn(useremail: string, pass: string): Promise<IAuthToken> {
     const logger = new Logger(AuthService.name + "-logIn");
     try {
-      const user = await this.userService.getUser(useremail);
+      const user = await this.userService.getUserByEmail(useremail);
       if (user?.password !== pass) {
         throw new UnauthorizedException();
       }
