@@ -85,4 +85,16 @@ export class AuthService {
         throw err;
     }
   }
+
+  async deleteSession(sessionId: string): Promise<void> {
+    const logger = new Logger(AuthService.name + "-logout");
+    try {
+        await this.prismaService.session.delete({
+            where: { id: sessionId }
+        })
+    } catch (err) {
+        logger.error(err);
+        throw err;
+    }
+  }
 }
