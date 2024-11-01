@@ -18,6 +18,7 @@ model Users {
   username String
   useremail String @unique
   password String
+  bio      String
   joinedOn DateTime @default(now())
   following Json
   posts Posts[]
@@ -28,6 +29,7 @@ model Posts {
   title     String
   content   String
   createdOn DateTime @default(now())
+  updatedOn DateTime @updatedAt
   userId    String
   user      Users  @relation(fields:[userId], references:[id])
 }
