@@ -3,7 +3,7 @@ import { PrismaModule } from 'src/common/prisma/prisma.module';
 import { PostsModule } from 'src/modules/posts/posts.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { validateAppEnv } from './modules/app-env.validation';
+import { validateAppEnv } from './app-env.validation';
 
 @Module({
   imports: [
