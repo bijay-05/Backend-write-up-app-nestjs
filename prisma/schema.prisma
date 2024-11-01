@@ -22,6 +22,7 @@ model User {
   joinedOn DateTime @default(now())
   following Json
   posts Post[]
+  session Session?
 }
 
 model Post {
@@ -32,4 +33,10 @@ model Post {
   updatedOn DateTime @updatedAt
   userId    String
   user      User  @relation(fields:[userId], references:[id])
+}
+
+model Session {
+  id  String @id
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
 }
