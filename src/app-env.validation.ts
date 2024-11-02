@@ -27,7 +27,13 @@ class EnvironmentVariables {
   ACCESS_TOKEN_SECRET: string;
 
   @IsString()
-  ACCESS_TOKEN_EXPIRES: string;
+  ACCESS_TOKEN_EXPIRY: string;
+
+  @IsString()
+  REFRESH_TOKEN_SECRET: string;
+
+  @IsString()
+  REFRESH_TOKEN_EXPIRY: string;
 }
 
 export function validateAppEnv(config: Record<string, unknown>) {
