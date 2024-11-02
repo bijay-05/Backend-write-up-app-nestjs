@@ -1,7 +1,7 @@
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { JsonValue } from '@prisma/client/runtime/library';
-import { CreateUpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { USER_MESSAGE_CONSTANT } from 'src/common/constants/user.constant';
 import { genSalt, hash } from "bcryptjs";
 
@@ -50,7 +50,7 @@ export class UserService {
     
   }
 
-  async createUser(createDto: CreateUpdateUserDto): Promise<IUser | undefined> {
+  async createUser(createDto: CreateUserDto): Promise<IUser | undefined> {
     const logger = new Logger(UserService.name + "-createUser");
     try {
         //check unique email address;
@@ -78,7 +78,7 @@ export class UserService {
     }
   }
 
-  async updateUser(userId: string, updateDto: CreateUpdateUserDto): Promise<IUser | undefined> {
+  async updateUser(userId: string, updateDto: UpdateUserDto): Promise<IUser | undefined> {
     const logger = new Logger(UserService.name + "-updateUser");
     try {
       const user = await this.prismaService.user.update({
