@@ -3,6 +3,7 @@ import { BadRequestException, Injectable, Logger, NotFoundException } from '@nes
 import { JsonValue } from '@prisma/client/runtime/library';
 import { CreateUpdateUserDto } from './dto';
 import { USER_MESSAGE_CONSTANT } from 'src/common/constants/user.constant';
+import { genSalt, hash } from "bcryptjs";
 
 export interface IUser {
     id: string;
@@ -56,14 +57,15 @@ export class UserService {
         const userEmailTaken = await this.checkEmail(createDto.useremail)
         if (userEmailTaken) throw new BadRequestException(USER_MESSAGE_CONSTANT.ERROR_MESSAGE.EMAIL_ALREADY_TAKEN)
         
-            //save user
-        // const hashPassword = bcryp
+        //hash password
+        const salt = await genSalt();
+        const hashedPassword = await hash(createDto.password, salt);
 
         const user = await this.prismaService.user.create({
           data: {
             useremail: createDto.useremail,
             username: createDto.username,
-            password: createDto.password,
+            password: hashedPassword,
             bio: createDto.bio,
             following: { ["userId"]: [] }
           }

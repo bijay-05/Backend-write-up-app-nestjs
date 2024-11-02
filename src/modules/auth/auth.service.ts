@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { v4 as uuidv4 } from "uuid";
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { compare } from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,13 @@ export class AuthService {
     const logger = new Logger(AuthService.name + "-logIn");
     try {
       const user = await this.userService.getUserByEmail(useremail);
-      if (user?.password !== pass) {
+
+      //compare hashed password
+      const passwordMatch = await compare(pass, user.password)
+      if (!passwordMatch) {
         throw new UnauthorizedException();
       }
+      
       const payload = { sub: user.id, sessionId: uuidv4() }
 
       //save session in database
