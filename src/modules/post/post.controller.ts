@@ -31,7 +31,7 @@ export class PostController {
 
     @Put(":id")
     @HttpCode(HttpStatus.OK)
-    async updatePost(@Param("id") id: string, @getUser() authUser: IAuthUser, updateDto: CreateUpdatePostDto): Promise<AppResponse<IPost>> {
+    async updatePost(@Param("id") id: string, @getUser() authUser: IAuthUser, @Body() updateDto: CreateUpdatePostDto): Promise<AppResponse<IPost>> {
         const post = await this.postService.updatePost(id, authUser.sub, updateDto);
 
         return new AppResponse<IPost>(POST_MESSAGE_CONSTANT.SUCCESS_MESSAGE.POST_UPDATE_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(post);

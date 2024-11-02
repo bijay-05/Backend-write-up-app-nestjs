@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from 'src/common/prisma/prisma.module';
-// import { PostsModule } from 'src/modules/post/post.module';
+import { PostModule } from 'src/modules';
 import { ConfigModule } from '@nestjs/config';
 import { validateAppEnv } from './app-env.validation';
 import { AuthModule, UserModule } from 'src/modules';
@@ -13,7 +13,7 @@ import { AuthModule, UserModule } from 'src/modules';
       validate: validateAppEnv
     }),
     PrismaModule,
-    // PostsModule,
+    PostModule,
     AuthModule,
     UserModule
   ],
