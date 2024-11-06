@@ -9,6 +9,21 @@ import { title } from "process";
 export class PostService {
     constructor(private prismaService: PrismaService) {}
 
+    async getAllPosts(): Promise<IPost[]> {
+        const logger = new Logger(PostService.name + "-getAllPosts");
+        try {
+            const posts = await this.prismaService.post.findMany({
+                orderBy: {
+                    createdOn: "desc"
+                }
+            });
+            return posts;
+        } catch (err) {
+            logger.error(err);
+            throw err;
+        }
+    }
+
     async getPost(id: string): Promise<IPost> {
         const logger = new Logger(PostService.name + "-getPost");
         try {

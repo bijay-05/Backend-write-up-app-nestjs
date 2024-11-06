@@ -13,12 +13,20 @@ import { IPost } from "./interface";
 export class PostController {
     constructor(private postService: PostService) {}
 
+    @Get()
+    @HttpCode(HttpStatus.OK)
+    async getAllPosts(): Promise<AppResponse<IPost[]>> {
+        const posts = await this.postService.getAllPosts();
+
+        return new AppResponse<IPost[]>(POST_MESSAGE_CONSTANT.SUCCESS_MESSAGE.POST_FETCH_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(posts);
+    }
+
     @Get(":id")
     @HttpCode(HttpStatus.OK)
     async getPost(@Param("id") id: string): Promise<AppResponse<IPost>> {
         const post = await this.postService.getPost(id);
 
-        return new AppResponse<IPost>(POST_MESSAGE_CONSTANT.SUCCESS_MESSAGE.POST_FETCH_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(post)
+        return new AppResponse<IPost>(POST_MESSAGE_CONSTANT.SUCCESS_MESSAGE.POST_FETCH_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(post);
     }
 
     @Post()
