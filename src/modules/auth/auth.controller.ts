@@ -22,6 +22,7 @@ export class AuthController {
       httpOnly: true,
       secure: true, // Set to true if using HTTPS
       maxAge: 1800000, // 1 hour
+      sameSite: true
     });
     return response.json({ message: "Login successfull", status: true })
   }
