@@ -31,7 +31,7 @@ import { Request } from 'express';
             secret: this.configService.get<string>("ACCESS_TOKEN_SECRET"),
           }
         );
-
+        console.log("Payload from jwt: ", payload)
         // verify session ID in session table
         const session = await this.prismaService.session.findUnique({
             where: { id: payload?.sessionId }

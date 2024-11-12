@@ -38,9 +38,14 @@ export class AuthController {
   @Delete("logout")
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  async logOut(@getUser() authUser: IAuthUser): Promise<AppResponse<null>> {
+  async logOut(@getUser() authUser: IAuthUser, @Res() response: Response): Promise<Response> {
     await this.authService.deleteSession(authUser.sessionId);
+
+    response.cookie('token', 'none', {
+      expires: new Date(Date.now() + 5*1000), //expires in 5 seconds
+      httpOnly: true
+    })
     
-    return new AppResponse<null>(AUTH_MESSAGE_CONSTANT.SUCCESS_MESSAGE.LOGOUT_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(null);
+    return response.json({ message: "Logged out successfully", status: true })
   }
 }
