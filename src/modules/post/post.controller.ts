@@ -21,6 +21,14 @@ export class PostController {
         return new AppResponse<IPost[]>(POST_MESSAGE_CONSTANT.SUCCESS_MESSAGE.POST_FETCH_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(posts);
     }
 
+    @Get('/user')
+    @HttpCode(HttpStatus.OK)
+    async getUserPosts(@getUser() authUser: IAuthUser): Promise<AppResponse<IPost[]>> {
+        const posts = await this.postService.getUserPosts(authUser.sub);
+
+        return new AppResponse<IPost[]>(POST_MESSAGE_CONSTANT.SUCCESS_MESSAGE.POST_FETCH_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(posts)
+    }
+
     @Get(":id")
     @HttpCode(HttpStatus.OK)
     async getPost(@Param("id") id: string): Promise<AppResponse<IPost>> {

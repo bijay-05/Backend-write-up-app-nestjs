@@ -24,6 +24,22 @@ export class PostService {
         }
     }
 
+    async getUserPosts(id: string): Promise<IPost[]> {
+        const logger = new Logger(PostService.name + "-getUserPosts");
+        try {
+            const posts = await this.prismaService.post.findMany({
+                where: { userId: id},
+                orderBy: {
+                    createdOn: "desc"
+                }
+            })
+            return posts;
+        } catch (err) {
+            logger.error(err);
+            throw err;
+        }
+    }
+
     async getPost(id: string): Promise<IPost> {
         const logger = new Logger(PostService.name + "-getPost");
         try {

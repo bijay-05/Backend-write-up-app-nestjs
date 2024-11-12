@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe, Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { logger: ["log", "error"]});
+  const app = await NestFactory.create(AppModule, { logger: ["verbose", "log", "error"]});
 
   const configService = app.get(ConfigService)
   const PORT = configService.get<number>("PORT")
