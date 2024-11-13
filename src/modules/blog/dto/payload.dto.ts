@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength } from "class-validator";
 
-export class CreateUpdatePostDto {
+export class CreateUpdateBlogDto {
 
     @IsString()
     @IsNotEmpty()
@@ -12,4 +12,7 @@ export class CreateUpdatePostDto {
     @IsNotEmpty()
     @MaxLength(1000)
     content: string;
+
+    @IsNotEmpty()
+    tags: object;
 }
