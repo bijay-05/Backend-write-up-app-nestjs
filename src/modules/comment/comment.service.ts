@@ -2,7 +2,9 @@ import { BadRequestException, Injectable, Logger, NotFoundException } from "@nes
 import { PrismaService } from "src/common/prisma/prisma.service";
 import { IComment } from "./interface";
 import { CreateUpdateCommentDto } from "./dto";
+import { COMMENT_MESSAGE_CONST } from "src/common/constants/comment.constant";
 
+@Injectable()
 export class CommentService {
     constructor(private prismaService: PrismaService) {}
 
@@ -15,7 +17,7 @@ export class CommentService {
                 }
             });
 
-            if (!comments) throw new NotFoundException();
+            if (!comments) throw new NotFoundException(COMMENT_MESSAGE_CONST.ERROR_MESSAGE.COMMENT_NOT_FOUND);
 
             return comments;
         } catch(err) {
@@ -34,7 +36,7 @@ export class CommentService {
                     comment: createDto.comment
                 }
             })
-            if (!comment) throw new BadRequestException();
+            if (!comment) throw new BadRequestException(COMMENT_MESSAGE_CONST.ERROR_MESSAGE.COMMENT_FORMAT_INVALID);
 
             return comment;
         } catch(err) {
@@ -53,7 +55,7 @@ export class CommentService {
                 }
             })
 
-            if (!comment) throw new BadRequestException();
+            if (!comment) throw new BadRequestException(COMMENT_MESSAGE_CONST.ERROR_MESSAGE.COMMENT_FORMAT_INVALID);
 
             return comment;
         } catch(err) {

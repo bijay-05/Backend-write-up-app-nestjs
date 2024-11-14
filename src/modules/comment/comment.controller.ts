@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, HttpCode, HttpStatus, Body, Param } from "@nestjs/common"
+import { Controller, Get, Post, Put, Delete, HttpCode, HttpStatus, Body, Param, UseGuards } from "@nestjs/common"
 import { CommentService } from "./comment.service"
 import { CreateUpdateCommentDto } from "./dto"
 import { IAuthUser } from "../auth/interface"
@@ -6,8 +6,10 @@ import { AppResponse } from "src/common/api-response"
 import { IComment } from "./interface"
 import { getUser } from "src/common/decorators"
 import { COMMENT_MESSAGE_CONST } from "src/common/constants/comment.constant"
+import { AuthGuard } from "src/common/guards"
 
 @Controller("comment/:id")
+@UseGuards(AuthGuard)
 export class CommentController {
     constructor(private commentService: CommentService) {}
 
