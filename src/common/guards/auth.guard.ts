@@ -48,7 +48,8 @@ import { Request } from 'express';
   
     private extractTokenFromHeader(request: Request): string | undefined {
       const [type, token] = request.headers.cookie?.split('=') ?? [];
-      return type === 'token' ? token : undefined;
+      
+      return type === "token" ? token : undefined;
     }
   }
   

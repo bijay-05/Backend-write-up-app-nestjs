@@ -4,5 +4,9 @@ export const COMMENT_MESSAGE_CONST = {
         COMMENT_CREATE_SUCCESS: "Comment created successfully",
         COMMENT_UPDATE_SUCCESS: "Comment updated successfully",
         COMMENT_DELETE_SUCCESS: "Comment deleted successfully"
+    },
+    ERROR_MESSAGE: {
+        COMMENT_NOT_FOUND: "Comment not found",
+        COMMENT_FORMAT_INVALID: "Comment format invalid"
     }
 }
