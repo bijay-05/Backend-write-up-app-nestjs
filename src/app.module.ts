@@ -14,7 +14,8 @@ import { AuthModule, UserModule, BlogModule, CommentModule } from 'src/modules';
     PrismaModule,
     BlogModule,
     AuthModule,
-    UserModule
+    UserModule,
+    CommentModule
   ],
   controllers: [],
   providers: [],
