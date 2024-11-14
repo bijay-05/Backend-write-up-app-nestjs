@@ -1,5 +1,5 @@
 import { IAuthToken } from './interface/auth.interface';
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -74,10 +74,14 @@ export class AuthService {
         const session = await this.prismaService.session.findUnique({
             where: { id: payload?.sessionId }
         })
+        if (!session) throw new BadRequestException("Refresh Token invalid")
 
         return {
             accesstoken: await this.jwtService.signAsync(
-                payload, 
+                {
+                  sub: payload.sub,
+                  sessionId: payload.sessionId
+                }, 
                 {
                   secret: this.configService.get<string>("ACCESS_TOKEN_SECRET"),
                   expiresIn: this.configService.get<string>("ACCESS_TOKEN_EXPIRY")

@@ -21,18 +21,26 @@ export class AuthController {
     response.cookie('token', data.accesstoken, {
       httpOnly: true,
       secure: true, // Set to true if using HTTPS
-      maxAge: 1800000, // 1 hour
+      maxAge: 300000, // 1 hour
       sameSite: true
     });
-    return response.json({ message: "Login successfull", status: true })
+    return response.json({ message: "Login successfull", status: true, data: data.refreshtoken })
   }
 
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
-  async getRefreshToken(@Body() refreshDto: RefreshDto ): Promise<AppResponse<IAuthToken>> {
+  async getRefreshToken(@Body() refreshDto: RefreshDto, @Res() response: Response ): Promise<Response> {
     const data = await this.authService.getRefreshToken(refreshDto.token);
     
-    return new AppResponse<IAuthToken>(AUTH_MESSAGE_CONSTANT.SUCCESS_MESSAGE.LOGIN_SUCCESS).setStatus(HttpStatus.OK).setSuccessData(data);
+    // response.clearCookie('token');
+    response.cookie('token', data.accesstoken, {
+      httpOnly: true,
+      secure: true, // Set to true if using HTTPS
+      maxAge: 300000, // 5mins
+      sameSite: true,
+      path: '/'
+    });
+    return response.json({ message: "Login successfull", status: true, data: data.refreshtoken })
   }
 
   @Delete("logout")
